@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">JIRA Mobile</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_attachments">Attachments</string>
+    <string name="title_comments">Comments</string>
+    <string name="label_task_summary">Summary</string>
+    <string name="label_created_date">Created Date</string>
+    <string name="label_priority">Priority</string>
+    <string name="label_description">Synopsis</string>
+
+    <string name="action_share">Share</string>
+
+    <!-- Label for sort order preference [CHAR LIMIT=30] -->
+    <string name="pref_sort_order_label">Sort Order</string>
+
+    <!-- Label for rating [CHAR LIMIT=25] -->
+    <string name="pref_sort_order_label_favorites">Favorite</string>
+
+    <!-- Key name for sort preference in SharedPreferences [CHAR LIMIT=NONE] -->
+    <string name="pref_sort_order_key" translatable="false">sort</string>
+
+    <!-- Value in SharedPreferences for favorites [CHAR LIMIT=NONE] -->
+    <string name="pref_sort_order_favorites" translatable="false">favorite</string>
+
+    <!-- SyncAdapter related -->
+    <string name="content_authority">com.company.matt.jiramobile</string>
+    <string name="sync_account_type">matt.company.com</string>
+
+    <!-- Strings related to Notification Enabled preference -->
+    <string name="pref_enable_notifications_key" translatable="false">enable_notifications</string>
+    <string name="pref_enable_notifications_label">Tasks Notifications</string>
+
+    <string name="pref_enable_notifications_true">Enabled</string>
+    <string name="pref_enable_notifications_false">Not Enabled</string>
+    <string name="pref_enable_notifications_default" translatable="false">true</string>
+
+    <string name="content_description">Image</string>
+
+</resources>
