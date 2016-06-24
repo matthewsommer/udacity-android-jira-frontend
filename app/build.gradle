@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "com.company.matt.jiramobile"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 23
         versionCode 1
         versionName "2.0"

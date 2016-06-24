@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.company.matt.jiramobile.data.Contract.TaskEntry;
 
 public class DbHelper extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     static final String DATABASE_NAME = "jiramobile.db";
 
@@ -22,7 +22,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 Contract.TaskEntry.COLUMN_SUMMARY + " TEXT NOT NULL, " +
                 Contract.TaskEntry.COLUMN_CREATION_DATE + " INTEGER NOT NULL, " +
                 TaskEntry.COLUMN_PRIORITY + " TEXT NOT NULL, " +
-                Contract.TaskEntry.COLUMN_DESCRIPTION + " TEXT NOT NULL, " +
+                Contract.TaskEntry.COLUMN_DESCRIPTION + " TEXT, " +
                 Contract.TaskEntry.COLUMN_PROJECT + " TEXT NOT NULL);";
         sqLiteDatabase.execSQL(SQL_CREATE_WEATHER_TABLE);
     }

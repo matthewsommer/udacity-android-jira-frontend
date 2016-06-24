@@ -98,7 +98,7 @@ public class CommentFragment extends Fragment {
             for(int i = 0; i < jsonArray.length(); i++) {
                 jsonObject = jsonArray.getJSONObject(i);
 
-                Comment comment = new Comment(jsonObject.getString(Constants.MDB_ID),
+                Comment comment = new Comment(jsonObject.getString(Constants.JIRA_ID),
                         jsonObject.getString(Constants.MDB_AUTHOR),
                         jsonObject.getString(Constants.MDB_CONTENT));
                 comments.add(comment);
@@ -118,7 +118,7 @@ public class CommentFragment extends Fragment {
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 String sortValue = preferences.getString("sort", "");
 
-                builtUri = Uri.parse(Constants.MDB_BASE_URL).buildUpon()
+                builtUri = Uri.parse(Constants.JIRA_BASE_URL).buildUpon()
                         .appendPath(mTaskId)
                         .appendPath("comments")
                         .build();

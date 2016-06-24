@@ -12,26 +12,21 @@ import android.content.SyncResult;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-
 import com.company.matt.jiramobile.JIRA.Constants;
 import com.company.matt.jiramobile.JIRA.Task;
 import com.company.matt.jiramobile.R;
 import com.company.matt.jiramobile.JIRA.JIRAClient;
 import com.company.matt.jiramobile.data.Contract;
-
 import java.util.List;
 import java.util.Vector;
 
-/**
- * Created by Matt on 6/17/16.
- */
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
     public final String LOG_TAG = SyncAdapter.class.getSimpleName();
     public static final int SYNC_INTERVAL = 60 * 180;
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL/3;
 
 
-    private static final String[] NOTIFY_MOVIE_PROJECTION = new String[] {
+    private static final String[] NOTIFY_TASK_PROJECTION = new String[] {
             Contract.TaskEntry.COLUMN_REMOTE_ID
     };
 
@@ -43,25 +38,23 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
         Log.d(LOG_TAG, "Starting sync");
         List<Task> object_list = null;
-        object_list = JIRAClient.FetchMovies(Constants.MDB_TOP_RATED);
-        object_list.addAll(JIRAClient.FetchMovies(Constants.MDB_POPULAR));
-        Vector<ContentValues> cVVector = new Vector<ContentValues>(object_list.size());
-        
-        for (Task task : object_list) {
-            
-            ContentValues objectValues = new ContentValues();
+        object_list = JIRAClient.FetchTasks();
 
-            objectValues.put(Contract.TaskEntry.COLUMN_REMOTE_ID, task.getId());
-            objectValues.put(Contract.TaskEntry.COLUMN_CREATION_DATE, task.getCreation_date());
-            objectValues.put(Contract.TaskEntry.COLUMN_DESCRIPTION, task.getDescription());
-            objectValues.put(Contract.TaskEntry.COLUMN_PRIORITY, task.getPriority());
-            objectValues.put(Contract.TaskEntry.COLUMN_SUMMARY, task.getSummary());
-            objectValues.put(Contract.TaskEntry.COLUMN_PROJECT, task.getProject());
+        if(object_list.size() > 0) {
+            Vector<ContentValues> cVVector = new Vector<ContentValues>(object_list.size());
+            for (Task task : object_list) {
+                ContentValues objectValues = new ContentValues();
+                objectValues.put(Contract.TaskEntry.COLUMN_REMOTE_ID, task.getId());
+                objectValues.put(Contract.TaskEntry.COLUMN_CREATION_DATE, task.getCreation_date());
+                objectValues.put(Contract.TaskEntry.COLUMN_DESCRIPTION, task.getDescription());
+                objectValues.put(Contract.TaskEntry.COLUMN_PRIORITY, task.getPriority());
+                objectValues.put(Contract.TaskEntry.COLUMN_SUMMARY, task.getSummary());
+                objectValues.put(Contract.TaskEntry.COLUMN_PROJECT, task.getProject());
+                cVVector.add(objectValues);
+            }
 
-            cVVector.add(objectValues);
+            AddVectorToDB(cVVector);
         }
-
-        AddVectorToDB(cVVector);
         return;
     }
 

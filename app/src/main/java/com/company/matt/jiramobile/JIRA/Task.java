@@ -15,9 +15,7 @@ public class Task implements Parcelable {
     public Task(String id,
                 String summary,
                 String creation_date,
-                String poster_path,
                 String priority,
-                String description,
                 String project){
         this.id = id;
         this.summary = summary;

@@ -20,7 +20,7 @@
         <activity android:name="com.company.matt.jiramobile.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <project android:name="android.intent.project.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity

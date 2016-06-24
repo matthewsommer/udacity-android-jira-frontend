@@ -109,7 +109,7 @@ public class AttachmentFragment extends Fragment {
             for(int i = 0; i < jsonArray.length(); i++) {
                 jsonObject = jsonArray.getJSONObject(i);
 
-                Attachment attachment = new Attachment(jsonObject.getString(Constants.MDB_ID),
+                Attachment attachment = new Attachment(jsonObject.getString(Constants.JIRA_ID),
                         jsonObject.getString(Constants.MDB_KEY),
                         jsonObject.getString(Constants.MDB_NAME),
                         jsonObject.getString(Constants.MDB_SITE));
@@ -130,7 +130,7 @@ public class AttachmentFragment extends Fragment {
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 String sortValue = preferences.getString("sort", "");
 
-                builtUri = Uri.parse(Constants.MDB_BASE_URL).buildUpon()
+                builtUri = Uri.parse(Constants.JIRA_BASE_URL).buildUpon()
                         .appendPath(mTaskId)
                         .appendPath("attachments")
                         .build();
