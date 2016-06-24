@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
@@ -15,9 +16,11 @@ public class TaskAdapter extends CursorAdapter {
 
     public static class ViewHolder {
         public final ImageView iconView;
+        public final TextView summaryTextView;
 
         public ViewHolder(View view) {
             iconView = (ImageView) view.findViewById(R.id.list_item_icon);
+            summaryTextView = (TextView) view.findViewById(R.id.list_item_summary);
         }
     }
 
@@ -37,8 +40,6 @@ public class TaskAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         ViewHolder viewHolder = (ViewHolder) view.getTag();
-        Picasso.with(context).load("http://image.tmdb.org/t/p/w185/"+cursor
-                .getString(TaskFragment.COL_POSTER)).into(viewHolder.iconView);
-        viewHolder.iconView.setContentDescription(cursor.getString(TaskFragment.COL_TITLE));
+        viewHolder.summaryTextView.setText(cursor.getString(TaskFragment.COL_SUMMARY));
     }
 }

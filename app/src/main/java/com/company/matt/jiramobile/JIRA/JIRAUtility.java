@@ -30,4 +30,32 @@ public class JIRAUtility {
         }
         return tasks;
     }
+
+    public static List<Comment> getCommentsFromJIRAJson(String jsonStr) throws JSONException {
+        JSONObject jsonObject = new JSONObject(jsonStr);
+        JSONArray jsonArray = jsonObject.getJSONArray(Constants.JIRA_COMMENTS);
+
+        List<Comment> comments = new ArrayList<Comment>();
+
+        for(int i = 0; i < jsonArray.length(); i++) {
+            JSONObject tmpJSONObject = jsonArray.getJSONObject(i);
+            JSONObject authorObject = tmpJSONObject.getJSONObject(Constants.JIRA_AUTHOR);
+
+            Comment comment = new Comment("1","Matt","Comment1");
+            comments.add(comment);
+        }
+        return comments;
+    }
+
+    public static List<Attachment> getAttachmentsFromJIRAJson(String jsonStr) throws JSONException {
+        JSONObject jsonObject = new JSONObject(jsonStr);
+        JSONArray jsonArray = jsonObject.getJSONArray(Constants.JIRA_ISSUES);
+
+        List<Attachment> attachments = new ArrayList<Attachment>();
+
+        for(int i = 0; i < jsonArray.length(); i++) {
+            JSONObject tmpJSONObject = jsonArray.getJSONObject(i);
+        }
+        return attachments;
+    }
 }

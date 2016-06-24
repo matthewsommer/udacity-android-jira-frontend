@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,14 +25,11 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private static final String LOG_TAG = DetailFragment.class.getSimpleName();
     static final String DETAIL_URI = "URI";
 
-    private static final String FORECAST_SHARE_HASHTAG = " #MovieApp";
+    private static final String FORECAST_SHARE_HASHTAG = " #JIRAMobileApp";
 
     private ShareActionProvider mShareActionProvider;
     private Uri mUri;
-
-    public String firstMovieId;
     private String Id;
-    private String movieId;
 
     private static final int DETAIL_LOADER = 0;
 
@@ -48,21 +44,17 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     };
 
     public static final int COL_ID = 0;
-    public static final int COL_MOVIE_ID = 1;
-    public static final int COL_TITLE = 2;
-    public static final int COL_RELEASE_DATE = 3;
-    public static final int COL_POSTER = 4;
-    public static final int COL_VOTE_AVG = 5;
-    public static final int COL_SYNOPSIS = 6;
-    public static final int COL_CATEGORY = 7;
-    public static final int COL_FAVORITED = 8;
+    public static final int COL_REMOTE_ID = 1;
+    public static final int COL_SUMMARY = 2;
+    public static final int COL_CREATION_DATE = 3;
+    public static final int COL_PRIORITY = 4;
+    public static final int COL_DESCRIPTION = 5;
 
     private ImageView mIconView;
-    private TextView mTitleView;
-    private TextView mReleaseDateView;
-    private TextView mVoteAvgView;
-    private TextView mSynopsisView;
-    private CheckBox mFavoritedCheckBox;
+    private TextView mSummaryTextView;
+    private TextView mCreationDateTextView;
+    private TextView mPriorityTextView;
+    private TextView mDescriptionTextView;
 
     public DetailFragment() {
         setHasOptionsMenu(true);
@@ -79,31 +71,12 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
         mIconView = (ImageView) rootView.findViewById(R.id.detail_icon);
-        mTitleView = (TextView) rootView.findViewById(R.id.detail_title_textview);
-        mReleaseDateView = (TextView) rootView.findViewById(R.id.detail_release_date);
-        mVoteAvgView = (TextView) rootView.findViewById(R.id.detail_vote_average);
-        mSynopsisView = (TextView) rootView.findViewById(R.id.detail_synopsis);
+        mSummaryTextView = (TextView) rootView.findViewById(R.id.detail_title_textview);
+        mCreationDateTextView = (TextView) rootView.findViewById(R.id.detail_release_date);
+        mPriorityTextView = (TextView) rootView.findViewById(R.id.detail_vote_average);
+        mDescriptionTextView = (TextView) rootView.findViewById(R.id.detail_synopsis);
 
         return rootView;
-    }
-
-    private void setCheckboxListener() {
-        mFavoritedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView,
-                                         boolean isChecked) {
-                ContentValues mUpdateValues = new ContentValues();
-                mUpdateValues.put(Contract.TaskEntry._ID, Id);
-
-                int mRowsUpdated = 0;
-
-                mRowsUpdated = getContext().getContentResolver().update(
-                        TaskEntry.CONTENT_URI, mUpdateValues, TaskEntry._ID + "= ?",
-                        new String[]{Id});
-                Log.d("Rows updated",Integer.toString(mRowsUpdated));
-            }
-        });
     }
 
     @Override
@@ -132,31 +105,14 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         Log.d("onLoadFinished", Integer.toString(data.getCount()));
         if (data != null && data.moveToFirst()) {
             Id = data.getString(COL_ID);
-            movieId = data.getString(COL_MOVIE_ID);
-            long release_date = data.getLong(COL_RELEASE_DATE);
-            String vote_avg = data.getString(COL_VOTE_AVG);
-            String titleText = data.getString(COL_TITLE);
-            String synopsisText = data.getString(COL_SYNOPSIS);
-            String voteAvgText = data.getString(COL_VOTE_AVG);
-            String poster_path = data.getString(COL_POSTER);
-            int favorited = data.getInt(COL_FAVORITED);
+            String taskId = data.getString(COL_REMOTE_ID);
+            long creation_date = data.getLong(COL_CREATION_DATE);
+            String summary = data.getString(COL_SUMMARY);
+            String priority = data.getString(COL_PRIORITY);
 
-            mTitleView.setText(titleText);
-            mSynopsisView.setText(synopsisText);
-            mReleaseDateView.setText("Released " + Long.toString(release_date));
-            mVoteAvgView.setText("Average Rating " + voteAvgText);
-
-            Picasso.with(getActivity()).load("http://image.tmdb.org/t/p/w185/"+poster_path).into(mIconView);
-
-            if(favorited == 1 && !mFavoritedCheckBox.isChecked()){
-                mFavoritedCheckBox.setOnCheckedChangeListener (null);
-                mFavoritedCheckBox.setChecked(true);
-            }
-            else if(favorited == 0 && mFavoritedCheckBox.isChecked()){
-                mFavoritedCheckBox.setOnCheckedChangeListener (null);
-                mFavoritedCheckBox.setChecked(false);
-            }
-            setCheckboxListener();
+            mSummaryTextView.setText(summary);
+            mCreationDateTextView.setText("Released " + Long.toString(creation_date));
+            mPriorityTextView.setText(priority);
         }
     }
 
