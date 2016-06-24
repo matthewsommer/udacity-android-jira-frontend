@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements TaskFragment.Call
     }
 
     @Override public void onItemSelected(String id, String movieId) {
-        Uri contentUri = Contract.TaskEntry.buildTaskWithId(id);
+        Uri contentUri = Contract.TaskEntry.buildTaskUri(Long.parseLong(id));
         if (mTwoPane) {
             Bundle args = new Bundle();
             args.putParcelable(DetailFragment.DETAIL_URI, contentUri);

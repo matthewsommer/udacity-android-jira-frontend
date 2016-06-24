@@ -72,7 +72,7 @@ public class Provider extends ContentProvider {
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         final String authority = Contract.CONTENT_AUTHORITY;
         matcher.addURI(authority, Contract.PATH_TASK, TASK);
-        matcher.addURI(authority, Contract.PATH_TASK + "/*", TASK_WITH_ID);
+        matcher.addURI(authority, Contract.PATH_TASK + "/#", TASK_WITH_ID);
         return matcher;
     }
 
