@@ -3,6 +3,7 @@ package com.company.matt.jiramobile.Networking;
 import android.util.Base64;
 import android.util.Log;
 
+import com.company.matt.jiramobile.BuildConfig;
 import com.company.matt.jiramobile.DetailFragment;
 
 import java.io.BufferedReader;
@@ -22,7 +23,9 @@ public class Client {
 
         try {
             urlConnection = (HttpURLConnection) url.openConnection();
-            String encoded = Base64.encodeToString(("ironman" + ":" + "ironman@!").getBytes("UTF-8"), Base64.NO_WRAP);
+            String encoded = Base64.encodeToString(
+                    (BuildConfig.TEST_USERNAME + ":" + BuildConfig.TEST_PASSWORD)
+                            .getBytes("UTF-8"), Base64.NO_WRAP);
             urlConnection.setRequestProperty("Authorization", "Basic " + encoded);
             urlConnection.setRequestProperty("Content-Type","application/json");
             urlConnection.setRequestMethod("GET");
