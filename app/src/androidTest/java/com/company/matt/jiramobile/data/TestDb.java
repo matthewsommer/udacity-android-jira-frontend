@@ -10,7 +10,7 @@ import java.util.HashSet;
 /**
  * Created by Matt on 6/15/16.
  */
-public class TestDb  extends AndroidTestCase {
+public class TestDb extends AndroidTestCase {
 
     public static final String LOG_TAG = TestDb.class.getSimpleName();
 
