@@ -12,10 +12,11 @@ import android.content.SyncResult;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import com.company.matt.jiramobile.JIRA.Constants;
-import com.company.matt.jiramobile.JIRA.Task;
+
+import com.company.matt.jiramobile.JIRA.Issue;
+import com.company.matt.jiramobile.JIRA.IssueDAO;
+import com.company.matt.jiramobile.JIRA.IssueDAOImpl;
 import com.company.matt.jiramobile.R;
-import com.company.matt.jiramobile.JIRA.JIRAClient;
 import com.company.matt.jiramobile.data.Contract;
 import java.util.List;
 import java.util.Vector;
@@ -37,19 +38,21 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
         Log.d(LOG_TAG, "Starting sync");
-        List<Task> object_list = null;
-        object_list = JIRAClient.FetchTasks();
+        List<Issue> object_list = null;
+
+        IssueDAO issueDAO = new IssueDAOImpl();
+        object_list = issueDAO.getAll();
 
         if(object_list.size() > 0) {
             Vector<ContentValues> cVVector = new Vector<ContentValues>(object_list.size());
-            for (Task task : object_list) {
+            for (Issue issue : object_list) {
                 ContentValues objectValues = new ContentValues();
-                objectValues.put(Contract.TaskEntry.COLUMN_REMOTE_ID, task.getId());
-                objectValues.put(Contract.TaskEntry.COLUMN_CREATION_DATE, task.getCreation_date());
-                objectValues.put(Contract.TaskEntry.COLUMN_DESCRIPTION, task.getDescription());
-                objectValues.put(Contract.TaskEntry.COLUMN_PRIORITY, task.getPriority());
-                objectValues.put(Contract.TaskEntry.COLUMN_SUMMARY, task.getSummary());
-                objectValues.put(Contract.TaskEntry.COLUMN_PROJECT, task.getProject());
+                objectValues.put(Contract.TaskEntry.COLUMN_REMOTE_ID, issue.getJira_id());
+                objectValues.put(Contract.TaskEntry.COLUMN_CREATION_DATE, issue.getCreation_date());
+                objectValues.put(Contract.TaskEntry.COLUMN_DESCRIPTION, issue.getDescription());
+                objectValues.put(Contract.TaskEntry.COLUMN_PRIORITY, issue.getPriority());
+                objectValues.put(Contract.TaskEntry.COLUMN_SUMMARY, issue.getSummary());
+                objectValues.put(Contract.TaskEntry.COLUMN_PROJECT, issue.getProject());
                 cVVector.add(objectValues);
             }
 

@@ -29,7 +29,7 @@ public class TestProvider extends AndroidTestCase {
                 null,
                 null
         );
-        assertEquals("Error: Records not deleted from Task table during delete", 0, cursor.getCount());
+        assertEquals("Error: Records not deleted from Issue table during delete", 0, cursor.getCount());
         cursor.close();
     }
     
