@@ -43,9 +43,7 @@ public class IssueDAOImpl implements IssueDAO {
     @Override
     public List<Issue> getAll() {
         String responseStr = null;
-        Uri builtUri = null;
-
-        builtUri = Uri.parse(Constants.JIRA_BASE_URL).buildUpon().build();
+        Uri builtUri = Contract.IssueEntry.buildSearchUri();
 
         URL url = null;
         try {
@@ -99,9 +97,7 @@ public class IssueDAOImpl implements IssueDAO {
     @Override
     public Issue update(Issue issue) {
         String JsonResponseStr = null;
-        Uri builtUri = null;
-
-        builtUri = Uri.parse(Constants.JIRA_REST_URL+"/issue/"+issue.getJira_id()).buildUpon().build();
+        Uri builtUri = Contract.IssueEntry.buildIssueUri(issue.getJira_id());
 
         URL url = null;
         try {
@@ -110,23 +106,7 @@ public class IssueDAOImpl implements IssueDAO {
             e.printStackTrace();
         }
 
-        JSONObject jsonObject = new JSONObject();
-        JSONObject fieldsObject = new JSONObject();
-        JSONObject projectObject = new JSONObject();
-        JSONObject issuetypeObject = new JSONObject();
-
-        try {
-            projectObject.put("id",issue.getProject());
-            issuetypeObject.put("id",issue.getIssue_type());
-            fieldsObject.put("summary",issue.getSummary());
-            jsonObject.put("fields",fieldsObject);
-
-        }  catch (JSONException e) {
-            Log.e(LOG_TAG, e.getMessage(), e);
-            e.printStackTrace();
-        }
-
-        JsonResponseStr = Client.GetResponseStr("PUT",url,jsonObject.toString());
+        JsonResponseStr = Client.GetResponseStr("PUT",url,issue.toJSONObject().toString());
 
         JSONObject responseJSON = new JSONObject();
         if(responseJSON.length() > 0) {
@@ -146,9 +126,7 @@ public class IssueDAOImpl implements IssueDAO {
     @Override
     public Issue create(Issue issue) {
         String JsonResponseStr = null;
-        Uri builtUri = null;
-
-        builtUri = Uri.parse(Constants.JIRA_REST_URL+"/issue").buildUpon().build();
+        Uri builtUri = Contract.IssueEntry.CONTENT_URI;
 
         URL url = null;
         try {
@@ -157,25 +135,7 @@ public class IssueDAOImpl implements IssueDAO {
             e.printStackTrace();
         }
 
-        JSONObject jsonObject = new JSONObject();
-        JSONObject fieldsObject = new JSONObject();
-        JSONObject projectObject = new JSONObject();
-        JSONObject issuetypeObject = new JSONObject();
-
-        try {
-            projectObject.put("id",issue.getProject());
-            issuetypeObject.put("id",issue.getIssue_type());
-            fieldsObject.put("project",projectObject);
-            fieldsObject.put("summary",issue.getSummary());
-            fieldsObject.put("issuetype",issuetypeObject);
-            jsonObject.put("fields",fieldsObject);
-
-        }  catch (JSONException e) {
-            Log.e(LOG_TAG, e.getMessage(), e);
-            e.printStackTrace();
-        }
-
-        JsonResponseStr = Client.GetResponseStr("POST",url,jsonObject.toString());
+        JsonResponseStr = Client.GetResponseStr("POST",url,issue.toJSONObject().toString());
 
         JSONObject responseJSON = new JSONObject();
         try {

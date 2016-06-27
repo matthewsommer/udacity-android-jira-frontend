@@ -48,11 +48,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             for (Issue issue : object_list) {
                 ContentValues objectValues = new ContentValues();
                 objectValues.put(Contract.TaskEntry.COLUMN_REMOTE_ID, issue.getJira_id());
-                objectValues.put(Contract.TaskEntry.COLUMN_CREATION_DATE, issue.getCreation_date());
-                objectValues.put(Contract.TaskEntry.COLUMN_DESCRIPTION, issue.getDescription());
-                objectValues.put(Contract.TaskEntry.COLUMN_PRIORITY, issue.getPriority());
-                objectValues.put(Contract.TaskEntry.COLUMN_SUMMARY, issue.getSummary());
-                objectValues.put(Contract.TaskEntry.COLUMN_PROJECT, issue.getProject());
                 cVVector.add(objectValues);
             }
 

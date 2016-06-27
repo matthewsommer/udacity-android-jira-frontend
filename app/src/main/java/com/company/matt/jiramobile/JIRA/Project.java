@@ -2,15 +2,52 @@ package com.company.matt.jiramobile.JIRA;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class Project implements Parcelable {
+    private static final String LOG_TAG = Fields.class.getSimpleName();
     private String self;
     private String id;
     private String key;
     private String name;
 
-    public Project() {
+    public Project(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
+    public Project(JSONObject jsonObject) {
+        try {
+            if(jsonObject.has("self")) {
+                this.self = jsonObject.getString("self");
+            }
+            if(jsonObject.has("id")) {
+                this.id = jsonObject.getString("id");
+            }
+            if(jsonObject.has("key")) {
+                this.key = jsonObject.getString("key");
+            }
+            if(jsonObject.has("name")) {
+                this.name = jsonObject.getString("name");
+            }
+        } catch (JSONException e) {
+            Log.e(LOG_TAG, e.getMessage(), e);
+            e.printStackTrace();
+        }
+    }
+
+    public JSONObject toJSONObject() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("id",this.id);
+        } catch (JSONException e) {
+            Log.e(LOG_TAG, e.getMessage(), e);
+            e.printStackTrace();
+        }
+        return jsonObject;
     }
 
     public int describeContents() {

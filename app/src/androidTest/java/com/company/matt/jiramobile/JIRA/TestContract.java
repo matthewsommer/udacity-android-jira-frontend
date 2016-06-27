@@ -19,5 +19,10 @@ public class TestContract extends AndroidTestCase {
 
     public void testBuildSearchUri() {
         Uri searchUri = Contract.IssueEntry.buildSearchUri();
+        assertNotNull("Error: buildSearchUri returned null", searchUri);
+        assertEquals("Error", searchUri.toString(),
+                "https://timetopretend.atlassian.net/rest/api/latest/search"+
+                        "?jql=resolution%20%3D%20Unresolved%20AND%20assignee"+
+                        "%20in%20(currentUser())%20ORDER%20BY%20issuetype%20ASC&maxResults=1000");
     }
 }
