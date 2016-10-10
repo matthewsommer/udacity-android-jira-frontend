@@ -2,23 +2,19 @@ package com.company.matt.jiramobile.JIRA;
 
 import android.net.Uri;
 import android.util.Log;
-
 import com.company.matt.jiramobile.networking.Client;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IssueDAOImpl implements IssueDAO {
-    private static final String LOG_TAG = IssueDAOImpl.class.getSimpleName();
+public class IssueProviderJIRA implements IssueProvider  {
+    private static final String LOG_TAG = IssueProvider.class.getSimpleName();
 
-    public void IssueDaoImpl() { }
+    public void IssueProviderImpl() { }
 
-    @Override
     public boolean delete(int jira_id) {
         String responseStr = null;
         Uri builtUri = Contract.IssueEntry.buildIssueUri(jira_id);
@@ -40,7 +36,6 @@ public class IssueDAOImpl implements IssueDAO {
         }
     }
 
-    @Override
     public List<Issue> getAll() {
         String responseStr = null;
         Uri builtUri = Contract.IssueEntry.buildSearchUri();
@@ -63,7 +58,6 @@ public class IssueDAOImpl implements IssueDAO {
         return null;
     }
 
-    @Override
     public Issue get(int jira_id) {
         String JsonResponseStr = null;
         Uri builtUri = Contract.IssueEntry.buildIssueUri(jira_id);
@@ -94,7 +88,6 @@ public class IssueDAOImpl implements IssueDAO {
         }
     }
 
-    @Override
     public Issue update(Issue issue) {
         String JsonResponseStr = null;
         Uri builtUri = Contract.IssueEntry.buildIssueUri(issue.getJira_id());
@@ -123,7 +116,6 @@ public class IssueDAOImpl implements IssueDAO {
         return issue;
     }
 
-    @Override
     public Issue create(Issue issue) {
         String JsonResponseStr = null;
         Uri builtUri = Contract.IssueEntry.CONTENT_URI;

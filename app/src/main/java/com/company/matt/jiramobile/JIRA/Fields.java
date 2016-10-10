@@ -12,6 +12,10 @@ public class Fields implements Parcelable {
     private String summary;
     private Project project;
     private Issuetype issuetype;
+    private Status status;
+    private Priority priority;
+    private String created;
+    private String updated;
 
     public Fields(String summary, Project project, Issuetype issuetype) {
         this.summary = summary;
@@ -30,6 +34,18 @@ public class Fields implements Parcelable {
             if (jsonObject.has("issuetype")) {
                 this.issuetype = new Issuetype(jsonObject.getJSONObject("issuetype"));
             }
+            if (jsonObject.has("status")) {
+                this.status = new Status(jsonObject.getJSONObject("status"));
+            }
+            if (jsonObject.has("priority")) {
+                this.priority = new Priority(jsonObject.getJSONObject("priority"));
+            }
+            if (jsonObject.has("created")) {
+                this.created = jsonObject.getString("created");
+            }
+            if (jsonObject.has("updated")) {
+                this.updated = jsonObject.getString("updated");
+            }
         } catch (JSONException e) {
             Log.e(LOG_TAG, e.getMessage(), e);
             e.printStackTrace();
@@ -39,9 +55,9 @@ public class Fields implements Parcelable {
     public JSONObject toJSONObject() {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("summary",this.summary);
-            jsonObject.put("project",this.project.toJSONObject());
-            jsonObject.put("issuetype",this.issuetype.toJSONObject());
+            jsonObject.put("summary", this.summary);
+            jsonObject.put("project", this.project.toJSONObject());
+            jsonObject.put("issuetype", this.issuetype.toJSONObject());
         } catch (JSONException e) {
             Log.e(LOG_TAG, e.getMessage(), e);
             e.printStackTrace();
@@ -85,5 +101,45 @@ public class Fields implements Parcelable {
 
     public void setSummary(String summary) {
         this.summary = summary;
+    }
+
+    public Issuetype getIssuetype() {
+        return issuetype;
+    }
+
+    public void setIssuetype(Issuetype issuetype) {
+        this.issuetype = issuetype;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public Priority getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Priority priority) {
+        this.priority = priority;
+    }
+
+    public String getCreated() {
+        return created;
+    }
+
+    public void setCreated(String created) {
+        this.created = created;
+    }
+
+    public String getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(String updated) {
+        this.updated = updated;
     }
 }

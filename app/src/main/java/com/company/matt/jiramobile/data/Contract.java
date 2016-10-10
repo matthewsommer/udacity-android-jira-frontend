@@ -13,7 +13,7 @@ public class Contract {
 
     public static final String CONTENT_AUTHORITY = "com.company.matt.jiramobile";
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
-    public static final String PATH_TASK = "task";
+    public static final String PATH_TASK = "issue";
 
     public static final class TaskEntry implements BaseColumns {
 
@@ -25,13 +25,14 @@ public class Contract {
         public static final String CONTENT_ITEM_TYPE =
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_TASK;
 
-        public static final String TABLE_NAME = "tasks";
-        public static final String COLUMN_REMOTE_ID = "remote_id";
+        public static final String TABLE_NAME = "issues";
+        public static final String COLUMN_REMOTE_ID = "jira_id";
         public static final String COLUMN_SUMMARY = "summary";
-        public static final String COLUMN_CREATION_DATE = "creation_date";
+        public static final String COLUMN_CREATION_DATE = "created";
+        public static final String COLUMN_UPDATED = "updated";
         public static final String COLUMN_PRIORITY = "priority";
-        public static final String COLUMN_DESCRIPTION = "description";
         public static final String COLUMN_PROJECT = "project";
+        public static final String COLUMN_DESCRIPTION = "description";
 
         public static Uri buildTaskUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);

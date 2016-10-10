@@ -2,10 +2,7 @@ package com.company.matt.jiramobile.networking;
 
 import android.util.Base64;
 import android.util.Log;
-
 import com.company.matt.jiramobile.BuildConfig;
-import com.company.matt.jiramobile.DetailFragment;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -16,7 +13,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class Client {
-    private static final String LOG_TAG = DetailFragment.class.getSimpleName();
+    private static final String LOG_TAG = Client.class.getSimpleName();
 
     public static String GetResponseStr(String method, URL url, String jsonStr) {
         HttpURLConnection urlConnection = null;

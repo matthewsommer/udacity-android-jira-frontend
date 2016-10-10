@@ -14,8 +14,8 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.company.matt.jiramobile.JIRA.Issue;
-import com.company.matt.jiramobile.JIRA.IssueDAO;
-import com.company.matt.jiramobile.JIRA.IssueDAOImpl;
+import com.company.matt.jiramobile.JIRA.IssueProvider;
+import com.company.matt.jiramobile.JIRA.IssueProviderJIRA;
 import com.company.matt.jiramobile.R;
 import com.company.matt.jiramobile.data.Contract;
 import java.util.List;
@@ -40,8 +40,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         Log.d(LOG_TAG, "Starting sync");
         List<Issue> object_list = null;
 
-        IssueDAO issueDAO = new IssueDAOImpl();
-        object_list = issueDAO.getAll();
+        IssueProvider issueProvider = new IssueProviderJIRA();
+        object_list = issueProvider.getAll();
 
         if(object_list.size() > 0) {
             Vector<ContentValues> cVVector = new Vector<ContentValues>(object_list.size());

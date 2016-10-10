@@ -11,8 +11,6 @@ import org.json.JSONObject;
 public class Issue implements Parcelable {
     private static final String LOG_TAG = JIRAUtility.class.getSimpleName();
     private int jira_id;
-    private String self;
-    private String key;
     private Fields fields;
 
     public Issue(Fields fields) {
@@ -23,12 +21,6 @@ public class Issue implements Parcelable {
         try {
             if (jsonObject.has("id")) {
                 this.jira_id = jsonObject.getInt("id");
-            }
-            if (jsonObject.has("self")) {
-                this.self = jsonObject.getString("self");
-            }
-            if (jsonObject.has("key")) {
-                this.self = jsonObject.getString("key");
             }
             if (jsonObject.has("fields")) {
                 this.fields = new Fields(jsonObject.getJSONObject("fields"));
@@ -56,8 +48,6 @@ public class Issue implements Parcelable {
 
     public void writeToParcel(Parcel out, int flags) {
         out.writeInt(jira_id);
-        out.writeString(self);
-        out.writeString(key);
     }
 
     public static final Parcelable.Creator<Issue> CREATOR = new Parcelable.Creator<Issue>() {
@@ -72,8 +62,6 @@ public class Issue implements Parcelable {
 
     private Issue(Parcel in) {
         jira_id = in.readInt();
-        self = in.readString();
-        key = in.readString();
     }
 
     public int getJira_id() {

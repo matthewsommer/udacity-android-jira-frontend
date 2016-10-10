@@ -2,7 +2,7 @@ package com.company.matt.jiramobile.JIRA;
 
 import java.util.List;
 
-public interface IssueDAO {
+public interface IssueProvider {
     public List<Issue> getAll();
     public Issue get(int jira_id);
     public Issue update(Issue issue);

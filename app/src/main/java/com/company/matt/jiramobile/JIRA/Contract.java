@@ -12,6 +12,12 @@ public class Contract {
     public static final String PATH_ISSUE = "issue";
     public static final String PATH_SEARCH = "search";
 
+    public static final String PARAMETER_JQL = "jql";
+    public static final String PARAMETER_MAX_RESULTS = "maxResults";
+
+    public static final String JQL = "resolution = Unresolved AND assignee in (currentUser()) ORDER BY issuetype ASC";
+    public static final String MAX_RESULTS = "20";
+
     public static final class IssueEntry implements BaseColumns {
 
         public static final Uri CONTENT_URI =
@@ -30,8 +36,8 @@ public class Contract {
         }
 
         public static Uri buildSearchUri() {
-            return SEARCH_URI.buildUpon().appendQueryParameter("jql", "resolution = Unresolved AND assignee in (currentUser()) ORDER BY issuetype ASC")
-                    .appendQueryParameter("maxResults","1000")
+            return SEARCH_URI.buildUpon().appendQueryParameter(PARAMETER_JQL, JQL)
+                    .appendQueryParameter(PARAMETER_MAX_RESULTS,MAX_RESULTS)
                     .build();
         }
     }
