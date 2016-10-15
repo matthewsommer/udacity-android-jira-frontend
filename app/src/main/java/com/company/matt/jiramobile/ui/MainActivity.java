@@ -1,4 +1,4 @@
-package com.company.matt.jiramobile;
+package com.company.matt.jiramobile.ui;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.company.matt.jiramobile.R;
 import com.company.matt.jiramobile.data.Contract;
 import com.company.matt.jiramobile.sync.SyncAdapter;
 
@@ -81,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements TaskFragment.Call
     }
 
     @Override public void onItemSelected(String id, String movieId) {
-        Uri contentUri = Contract.TaskEntry.buildTaskUri(Long.parseLong(id));
+        Uri contentUri = Contract.IssueEntry.buildIssueUri(Long.parseLong(id));
         if (mTwoPane) {
             Bundle args = new Bundle();
             args.putParcelable(DetailFragment.DETAIL_URI, contentUri);

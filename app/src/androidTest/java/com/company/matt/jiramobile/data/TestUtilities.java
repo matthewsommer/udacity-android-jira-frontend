@@ -10,6 +10,10 @@ import android.test.AndroidTestCase;
 
 import com.company.matt.jiramobile.utils.PollingCheck;
 
+import com.company.matt.jiramobile.data.Contract.IssueEntry;
+import com.company.matt.jiramobile.data.Contract.CommentEntry;
+import com.company.matt.jiramobile.data.Contract.AttachmentEntry;
+
 import java.util.Map;
 import java.util.Set;
 
@@ -36,14 +40,34 @@ public class TestUtilities extends AndroidTestCase {
         }
     }
 
-    static ContentValues createTaskValues() {
+    static ContentValues createIssueValues() {
         ContentValues objectValues = new ContentValues();
-        objectValues.put(Contract.TaskEntry.COLUMN_REMOTE_ID, 47389);
-        objectValues.put(Contract.TaskEntry.COLUMN_SUMMARY, "Get stuff done.");
-        objectValues.put(Contract.TaskEntry.COLUMN_CREATION_DATE, TEST_DATE);
-        objectValues.put(Contract.TaskEntry.COLUMN_PRIORITY, "High");
-        objectValues.put(Contract.TaskEntry.COLUMN_DESCRIPTION, "Implement all the things!");
-        objectValues.put(Contract.TaskEntry.COLUMN_PROJECT, "Software Engineering");
+        objectValues.put(IssueEntry.COLUMN_REMOTE_ID, 47389);
+        objectValues.put(IssueEntry.COLUMN_SUMMARY, "Get stuff done.");
+        objectValues.put(IssueEntry.COLUMN_STATUS, "Open");
+        objectValues.put(IssueEntry.COLUMN_PRIORITY, "High");
+        objectValues.put(IssueEntry.COLUMN_DESCRIPTION, "Implement all the things!");
+        objectValues.put(IssueEntry.COLUMN_REPORTER, "ironman");
+        return objectValues;
+    }
+
+    static ContentValues createCommentValues() {
+        ContentValues objectValues = new ContentValues();
+        objectValues.put(CommentEntry.COLUMN_REMOTE_ID, 14220);
+        objectValues.put(CommentEntry.COLUMN_JIRA_ISSUE_ID, 47389);
+        objectValues.put(CommentEntry.COLUMN_AUTHOR, "ironman");
+        objectValues.put(CommentEntry.COLUMN_CREATED_DATE, TEST_DATE);
+        objectValues.put(CommentEntry.COLUMN_BODY, "Implement all the things!");
+        return objectValues;
+    }
+
+    static ContentValues createAttachmentValues() {
+        ContentValues objectValues = new ContentValues();
+        objectValues.put(AttachmentEntry.COLUMN_REMOTE_ID, 11914);
+        objectValues.put(AttachmentEntry.COLUMN_FILENAME, "Avatar.jpg");
+        objectValues.put(AttachmentEntry.COLUMN_REMOTE_CONTENT_URL, "https://timetopretend.atlassian.net/secure/attachment/11914/Avatar.jpg");
+        objectValues.put(AttachmentEntry.COLUMN_JIRA_ISSUE_ID, 47389);
+        objectValues.put(AttachmentEntry.COLUMN_MIME_TYPE, "image/jpeg");
         return objectValues;
     }
 

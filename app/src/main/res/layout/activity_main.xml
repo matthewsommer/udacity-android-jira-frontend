@@ -1,8 +1,8 @@
 <fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_movie"
-    android:name="com.company.matt.jiramobile.TaskFragment"
+    android:name="com.company.matt.jiramobile.ui.TaskFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TaskFragment"
+    tools:context=".ui.TaskFragment"
     tools:layout="@android:layout/list_content" />

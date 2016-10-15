@@ -6,10 +6,10 @@
     android:baselineAligned="false"
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="horizontal"
-    tools:context=".MainActivity">
+    tools:context=".ui.MainActivity">
     <fragment
         android:id="@+id/fragment_movie"
-        android:name="com.company.matt.jiramobile.TaskFragment"
+        android:name="com.company.matt.jiramobile.ui.TaskFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"

@@ -1,4 +1,4 @@
-package com.company.matt.jiramobile;
+package com.company.matt.jiramobile.ui;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -9,17 +9,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.company.matt.jiramobile.R;
 
 public class TaskAdapter extends CursorAdapter {
     private static final String LOG_TAG = TaskAdapter.class.getSimpleName();
 
     public static class ViewHolder {
-        public final ImageView iconView;
         public final TextView summaryTextView;
 
         public ViewHolder(View view) {
-            iconView = (ImageView) view.findViewById(R.id.list_item_icon);
             summaryTextView = (TextView) view.findViewById(R.id.list_item_summary);
         }
     }

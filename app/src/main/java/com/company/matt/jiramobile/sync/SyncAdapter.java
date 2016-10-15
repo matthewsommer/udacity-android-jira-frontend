@@ -21,6 +21,10 @@ import com.company.matt.jiramobile.data.Contract;
 import java.util.List;
 import java.util.Vector;
 
+import com.company.matt.jiramobile.data.Contract.IssueEntry;
+import com.company.matt.jiramobile.data.Contract.CommentEntry;
+import com.company.matt.jiramobile.data.Contract.AttachmentEntry;
+
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
     public final String LOG_TAG = SyncAdapter.class.getSimpleName();
     public static final int SYNC_INTERVAL = 60 * 180;
@@ -28,7 +32,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
 
     private static final String[] NOTIFY_TASK_PROJECTION = new String[] {
-            Contract.TaskEntry.COLUMN_REMOTE_ID
+            Contract.IssueEntry.COLUMN_REMOTE_ID
     };
 
     public SyncAdapter(Context context, boolean autoInitialize) {
@@ -47,7 +51,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             Vector<ContentValues> cVVector = new Vector<ContentValues>(object_list.size());
             for (Issue issue : object_list) {
                 ContentValues objectValues = new ContentValues();
-                objectValues.put(Contract.TaskEntry.COLUMN_REMOTE_ID, issue.getJira_id());
+                objectValues.put(IssueEntry.COLUMN_REMOTE_ID, issue.getJira_id());
+                objectValues.put(IssueEntry.COLUMN_SUMMARY, issue.getFields().getSummary());
+                objectValues.put(IssueEntry.COLUMN_PRIORITY, issue.getFields().getPriority().getName());
+                objectValues.put(IssueEntry.COLUMN_STATUS, issue.getFields().getStatus().getName());
+                objectValues.put(IssueEntry.COLUMN_DESCRIPTION, issue.getFields().getDescription());
                 cVVector.add(objectValues);
             }
 
@@ -57,14 +65,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     private void AddVectorToDB(Vector<ContentValues> cVVector) {
-        getContext().getContentResolver().delete(Contract.TaskEntry.CONTENT_URI,
+        getContext().getContentResolver().delete(IssueEntry.CONTENT_URI,
                 null,
                 null);
 
         if ( cVVector.size() > 0 ) {
             ContentValues[] cvArray = new ContentValues[cVVector.size()];
             cVVector.toArray(cvArray);
-            getContext().getContentResolver().bulkInsert(Contract.TaskEntry.CONTENT_URI, cvArray);
+            getContext().getContentResolver().bulkInsert(Contract.IssueEntry.CONTENT_URI, cvArray);
         }
 
         Log.d(LOG_TAG, "Sync Complete. " + cVVector.size() + " Inserted");

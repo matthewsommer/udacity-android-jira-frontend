@@ -1,10 +1,12 @@
-package com.company.matt.jiramobile;
+package com.company.matt.jiramobile.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.company.matt.jiramobile.R;
 
 public class DetailActivity extends AppCompatActivity{
 

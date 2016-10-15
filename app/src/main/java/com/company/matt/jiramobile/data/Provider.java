@@ -9,33 +9,39 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 
+import com.company.matt.jiramobile.data.Contract.IssueEntry;
+import com.company.matt.jiramobile.data.Contract.CommentEntry;
+import com.company.matt.jiramobile.data.Contract.AttachmentEntry;
+
 public class Provider extends ContentProvider {
     private static final UriMatcher sUriMatcher = buildUriMatcher();
     private DbHelper mOpenHelper;
 
-    static final int TASK = 100;
-    static final int TASK_WITH_ID = 101;
-    static final int TASK_WITH_PROJECT = 102;
+    static final int ISSUE = 100;
+    static final int ISSUE_WITH_ID = 101;
+    static final int COMMENT = 200;
+    static final int COMMENT_WITH_ID = 201;
+    static final int COMMENTS_WITH_ISSUE_ID = 202;
+    static final int ATTACHMENT = 300;
+    static final int ATTACHMENT_WITH_ID = 301;
+    static final int ATTACHMENTS_WITH_ISSUE_ID = 302;
 
     private static final SQLiteQueryBuilder sTaskQueryBuilder;
 
     static{
         sTaskQueryBuilder = new SQLiteQueryBuilder();
-        sTaskQueryBuilder.setTables(Contract.TaskEntry.TABLE_NAME);
+        sTaskQueryBuilder.setTables(Contract.IssueEntry.TABLE_NAME);
     }
 
     private static final String sId =
-            Contract.TaskEntry._ID + " = ?";
-
-    private static final String sProject =
-            Contract.TaskEntry.COLUMN_PROJECT + " = ?";
+            Contract.IssueEntry._ID + " = ?";
 
     private Cursor getById(
             Uri uri, String[] projection, String sortOrder) {
-        String movieId = Contract.TaskEntry.getTaskIdFromUri(uri);
+        String issueId = Contract.IssueEntry.getIssueIdFromUri(uri);
 
         String selection = sId;
-        String[] selectionArgs = new String[]{movieId};
+        String[] selectionArgs = new String[]{issueId};
 
         return sTaskQueryBuilder.query(mOpenHelper.getReadableDatabase(),
                 projection,
@@ -47,16 +53,29 @@ public class Provider extends ContentProvider {
         );
     }
 
-    private Cursor getMovie(Uri uri, String[] projection, String sortOrder) {
-        String movieCategory = Contract.TaskEntry.getTaskProjectFromUri(uri);
+    private Cursor getCommentsByIssueId(
+            Uri uri, String[] projection, String sortOrder) {
+        String issueId = IssueEntry.getIssueIdFromUri(uri);
 
-        String selection = null;
-        String[] selectionArgs = null;
+        String selection = sId;
+        String[] selectionArgs = new String[]{issueId};
 
-        if(null != movieCategory) {
-            selection = sProject;
-            selectionArgs = new String[]{movieCategory};
-        }
+        return sTaskQueryBuilder.query(mOpenHelper.getReadableDatabase(),
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                sortOrder
+        );
+    }
+
+    private Cursor getAttachmentsByIssueId(
+            Uri uri, String[] projection, String sortOrder) {
+        String issueId = IssueEntry.getIssueIdFromUri(uri);
+
+        String selection = sId;
+        String[] selectionArgs = new String[]{issueId};
 
         return sTaskQueryBuilder.query(mOpenHelper.getReadableDatabase(),
                 projection,
@@ -71,8 +90,14 @@ public class Provider extends ContentProvider {
     static UriMatcher buildUriMatcher() {
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         final String authority = Contract.CONTENT_AUTHORITY;
-        matcher.addURI(authority, Contract.PATH_TASK, TASK);
-        matcher.addURI(authority, Contract.PATH_TASK + "/#", TASK_WITH_ID);
+        matcher.addURI(authority, Contract.PATH_ISSUE, ISSUE);
+        matcher.addURI(authority, Contract.PATH_ISSUE + "/#", ISSUE_WITH_ID);
+        matcher.addURI(authority, Contract.PATH_COMMENT, COMMENT);
+        matcher.addURI(authority, Contract.PATH_COMMENT + "/#", COMMENT_WITH_ID);
+        matcher.addURI(authority, Contract.PATH_ISSUE + "/#/" + Contract.PATH_COMMENT, COMMENTS_WITH_ISSUE_ID);
+        matcher.addURI(authority, Contract.PATH_ATTACHMENT, ATTACHMENT);
+        matcher.addURI(authority, Contract.PATH_ATTACHMENT + "/#", ATTACHMENT_WITH_ID);
+        matcher.addURI(authority, Contract.PATH_ISSUE + "/#/" + Contract.PATH_ATTACHMENT, ATTACHMENTS_WITH_ISSUE_ID);
         return matcher;
     }
 
@@ -86,8 +111,8 @@ public class Provider extends ContentProvider {
     public String getType(Uri uri) {
         final int match = sUriMatcher.match(uri);
         switch (match) {
-            case TASK:
-                return Contract.TaskEntry.CONTENT_TYPE;
+            case ISSUE:
+                return Contract.IssueEntry.CONTENT_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -98,14 +123,22 @@ public class Provider extends ContentProvider {
                         String sortOrder) {
         Cursor retCursor;
         switch (sUriMatcher.match(uri)) {
-            // "movie/*"
-            case TASK_WITH_ID: {
+            // "issue/*"
+            case ISSUE_WITH_ID: {
                 retCursor = getById(uri, projection, sortOrder);
                 break;
             }
-            // "movie"
-            case TASK: {
-                retCursor = getMovie(uri, projection, sortOrder);
+            // "issue"
+            case ISSUE: {
+                retCursor = mOpenHelper.getReadableDatabase().query(
+                        IssueEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
                 break;
             }
             default:
@@ -122,11 +155,11 @@ public class Provider extends ContentProvider {
         Uri returnUri;
 
         switch (match) {
-            case TASK: {
+            case ISSUE: {
                 normalizeDate(values);
-                long _id = db.insert(Contract.TaskEntry.TABLE_NAME, null, values);
+                long _id = db.insert(Contract.IssueEntry.TABLE_NAME, null, values);
                 if ( _id > 0 )
-                    returnUri = Contract.TaskEntry.buildTaskUri(_id);
+                    returnUri = Contract.IssueEntry.buildIssueUri(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;
@@ -145,9 +178,9 @@ public class Provider extends ContentProvider {
         int rowsDeleted;
         if ( null == selection ) selection = "1";
         switch (match) {
-            case TASK:
+            case ISSUE:
                 rowsDeleted = db.delete(
-                        Contract.TaskEntry.TABLE_NAME, selection, selectionArgs);
+                        Contract.IssueEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -159,12 +192,12 @@ public class Provider extends ContentProvider {
     }
 
     private void normalizeDate(ContentValues values) {
-        if (values.containsKey(Contract.TaskEntry.COLUMN_CREATION_DATE)) {
-            String dateStr = values.getAsString(Contract.TaskEntry.COLUMN_CREATION_DATE);
-            if(!dateStr.isEmpty()) {
-                //values.put(Contract.TaskEntry.COLUMN_CREATION_DATE, Contract.normalizeDate(dateStr));
-            }
-        }
+//        if (values.containsKey(Contract.IssueEntry.COLUMN_CREATION_DATE)) {
+//            String dateStr = values.getAsString(Contract.IssueEntry.COLUMN_CREATION_DATE);
+//            if(!dateStr.isEmpty()) {
+//                //values.put(Contract.IssueEntry.COLUMN_CREATION_DATE, Contract.normalizeDate(dateStr));
+//            }
+//        }
     }
 
     @Override
@@ -175,9 +208,9 @@ public class Provider extends ContentProvider {
         int rowsUpdated;
 
         switch (match) {
-            case TASK:
+            case ISSUE:
                 normalizeDate(values);
-                rowsUpdated = db.update(Contract.TaskEntry.TABLE_NAME, values, selection,
+                rowsUpdated = db.update(Contract.IssueEntry.TABLE_NAME, values, selection,
                         selectionArgs);
                 break;
             default:
@@ -194,13 +227,13 @@ public class Provider extends ContentProvider {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         final int match = sUriMatcher.match(uri);
         switch (match) {
-            case TASK:
+            case ISSUE:
                 db.beginTransaction();
                 int returnCount = 0;
                 try {
                     for (ContentValues value : values) {
                         normalizeDate(value);
-                        long _id = db.insert(Contract.TaskEntry.TABLE_NAME, null, value);
+                        long _id = db.insert(Contract.IssueEntry.TABLE_NAME, null, value);
                         if (_id != -1) {
                             returnCount++;
                         }

@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.test.AndroidTestCase;
 
-import com.company.matt.jiramobile.data.Contract.TaskEntry;
+import com.company.matt.jiramobile.data.Contract.IssueEntry;
 
 public class TestProvider extends AndroidTestCase {
 
@@ -17,13 +17,13 @@ public class TestProvider extends AndroidTestCase {
 
     public void deleteAllRecordsFromProvider() {
         mContext.getContentResolver().delete(
-                TaskEntry.CONTENT_URI,
+                Contract.IssueEntry.CONTENT_URI,
                 null,
                 null
         );
 
         Cursor cursor = mContext.getContentResolver().query(
-                TaskEntry.CONTENT_URI,
+                IssueEntry.CONTENT_URI,
                 null,
                 null,
                 null,
@@ -60,46 +60,46 @@ public class TestProvider extends AndroidTestCase {
     }
 
     public void testGetType() {
-        String type = mContext.getContentResolver().getType(TaskEntry.CONTENT_URI);
-        assertEquals("Error: the TaskEntry CONTENT_URI should return TaskEntry.CONTENT_TYPE",
-                TaskEntry.CONTENT_TYPE, type);
+        String type = mContext.getContentResolver().getType(Contract.IssueEntry.CONTENT_URI);
+        assertEquals("Error: the IssueEntry CONTENT_URI should return IssueEntry.CONTENT_TYPE",
+                Contract.IssueEntry.CONTENT_TYPE, type);
     }
 
-    public void testBasicMovieQuery() {
+    public void testBasicIssueQuery() {
         DbHelper dbHelper = new DbHelper(mContext);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        ContentValues movieValues = TestUtilities.createTaskValues();
+        ContentValues issueValues = TestUtilities.createIssueValues();
 
-        long movieRowId = db.insert(TaskEntry.TABLE_NAME, null, movieValues);
-        assertTrue("Unable to Insert TaskEntry into the Database", movieRowId != -1);
+        long issueRowId = db.insert(IssueEntry.TABLE_NAME, null, issueValues);
+        assertTrue("Unable to Insert IssueEntry into the Database", issueRowId != -1);
 
         db.close();
 
-        Cursor movieCursor = mContext.getContentResolver().query(
-                TaskEntry.CONTENT_URI,
+        Cursor issueCursor = mContext.getContentResolver().query(
+                Contract.IssueEntry.CONTENT_URI,
                 null,
                 null,
                 null,
                 null
         );
 
-        TestUtilities.validateCursor("testBasicMovieQuery", movieCursor, movieValues);
+        TestUtilities.validateCursor("testBasicIssueQuery", issueCursor, issueValues);
     }
 
-    public void testBasicMovieWithIDQuery() {
+    public void testBasicIssueWithIDQuery() {
         DbHelper dbHelper = new DbHelper(mContext);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        ContentValues movieValues = TestUtilities.createTaskValues();
+        ContentValues movieValues = TestUtilities.createIssueValues();
 
-        long movieRowId = db.insert(TaskEntry.TABLE_NAME, null, movieValues);
-        assertTrue("Unable to Insert TaskEntry into the Database", movieRowId != -1);
+        long movieRowId = db.insert(IssueEntry.TABLE_NAME, null, movieValues);
+        assertTrue("Unable to Insert IssueEntry into the Database", movieRowId != -1);
 
         db.close();
 
         Cursor movieCursor = mContext.getContentResolver().query(
-                TaskEntry.CONTENT_URI,
+                IssueEntry.CONTENT_URI,
                 null,
                 null,
                 null,
@@ -112,13 +112,13 @@ public class TestProvider extends AndroidTestCase {
     public void testInsertReadProvider() {
         TestUtilities.TestContentObserver tco = TestUtilities.getTestContentObserver();
 
-        ContentValues weatherValues = TestUtilities.createTaskValues();
+        ContentValues weatherValues = TestUtilities.createIssueValues();
         tco = TestUtilities.getTestContentObserver();
 
-        mContext.getContentResolver().registerContentObserver(TaskEntry.CONTENT_URI, true, tco);
+        mContext.getContentResolver().registerContentObserver(IssueEntry.CONTENT_URI, true, tco);
 
         Uri weatherInsertUri = mContext.getContentResolver()
-                .insert(TaskEntry.CONTENT_URI, weatherValues);
+                .insert(IssueEntry.CONTENT_URI, weatherValues);
         assertTrue(weatherInsertUri != null);
 
         tco.waitForNotificationOrFail();
@@ -126,7 +126,7 @@ public class TestProvider extends AndroidTestCase {
 
         // A cursor is your primary interface to the query results.
         Cursor weatherCursor = mContext.getContentResolver().query(
-                TaskEntry.CONTENT_URI,  // Table to Query
+                IssueEntry.CONTENT_URI,  // Table to Query
                 null, // leaving "columns" null just returns all the columns.
                 null, // cols for "where" clause
                 null, // values for "where" clause
@@ -140,13 +140,13 @@ public class TestProvider extends AndroidTestCase {
     public void testDeleteRecords() {
         testInsertReadProvider();
 
-        TestUtilities.TestContentObserver movieObserver = TestUtilities.getTestContentObserver();
-        mContext.getContentResolver().registerContentObserver(TaskEntry.CONTENT_URI, true, movieObserver);
+        TestUtilities.TestContentObserver issueObserver = TestUtilities.getTestContentObserver();
+        mContext.getContentResolver().registerContentObserver(IssueEntry.CONTENT_URI, true, issueObserver);
 
         deleteAllRecordsFromProvider();
 
-        movieObserver.waitForNotificationOrFail();
+        issueObserver.waitForNotificationOrFail();
 
-        mContext.getContentResolver().unregisterContentObserver(movieObserver);
+        mContext.getContentResolver().unregisterContentObserver(issueObserver);
     }
 }

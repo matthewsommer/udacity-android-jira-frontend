@@ -1,4 +1,4 @@
-package com.company.matt.jiramobile;
+package com.company.matt.jiramobile.ui;
 
 import android.database.Cursor;
 import android.net.Uri;
@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ListView;
 
+import com.company.matt.jiramobile.R;
 import com.company.matt.jiramobile.data.Contract;
 
 public class TaskFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -29,11 +30,10 @@ public class TaskFragment extends Fragment implements LoaderManager.LoaderCallba
     private static final int TASK_LOADER = 0;
 
     private static final String[] TASK_COLUMNS = {
-            Contract.TaskEntry._ID,
-            Contract.TaskEntry.COLUMN_REMOTE_ID,
-            Contract.TaskEntry.COLUMN_SUMMARY,
-            Contract.TaskEntry.COLUMN_PRIORITY,
-            Contract.TaskEntry.COLUMN_PROJECT
+            Contract.IssueEntry._ID,
+            Contract.IssueEntry.COLUMN_REMOTE_ID,
+            Contract.IssueEntry.COLUMN_SUMMARY,
+            Contract.IssueEntry.COLUMN_PRIORITY
     };
 
     static final int COL_ID = 0;
@@ -102,8 +102,8 @@ public class TaskFragment extends Fragment implements LoaderManager.LoaderCallba
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        Uri tasksUri = Contract.TaskEntry.buildTaskUri();
-        String sortOrder = Contract.TaskEntry.COLUMN_SUMMARY + " ASC";
+        Uri tasksUri = Contract.IssueEntry.buildIssueUri();
+        String sortOrder = Contract.IssueEntry.COLUMN_SUMMARY + " ASC";
 
         return new CursorLoader(getActivity(),
                 tasksUri,

@@ -3,7 +3,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:padding="20dp"
-    tools:context=".CommentFragment"
+    tools:context=".ui.CommentFragment"
     android:orientation="vertical">
     <TextView
         android:text="@string/title_comments"

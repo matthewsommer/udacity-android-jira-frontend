@@ -16,6 +16,7 @@ public class Fields implements Parcelable {
     private Priority priority;
     private String created;
     private String updated;
+    private String description;
 
     public Fields(String summary, Project project, Issuetype issuetype) {
         this.summary = summary;
@@ -45,6 +46,9 @@ public class Fields implements Parcelable {
             }
             if (jsonObject.has("updated")) {
                 this.updated = jsonObject.getString("updated");
+            }
+            if (jsonObject.has("description")) {
+                this.updated = jsonObject.getString("description");
             }
         } catch (JSONException e) {
             Log.e(LOG_TAG, e.getMessage(), e);
@@ -141,5 +145,13 @@ public class Fields implements Parcelable {
 
     public void setUpdated(String updated) {
         this.updated = updated;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

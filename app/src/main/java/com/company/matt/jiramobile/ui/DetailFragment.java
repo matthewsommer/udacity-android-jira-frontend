@@ -1,6 +1,5 @@
-package com.company.matt.jiramobile;
+package com.company.matt.jiramobile.ui;
 
-import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,19 +12,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.company.matt.jiramobile.R;
 import com.company.matt.jiramobile.data.Contract;
-import com.company.matt.jiramobile.data.Contract.TaskEntry;
-import com.squareup.picasso.Picasso;
 
 public class DetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final String LOG_TAG = DetailFragment.class.getSimpleName();
     static final String DETAIL_URI = "URI";
 
-    private static final String FORECAST_SHARE_HASHTAG = " #JIRAMobileApp";
+    private static final String ISSUE_SHARE_HASHTAG = " #JIRAMobileApp";
 
     private ShareActionProvider mShareActionProvider;
     private Uri mUri;
@@ -34,19 +31,18 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private static final int DETAIL_LOADER = 0;
 
     private static final String[] DETAIL_COLUMNS = {
-            TaskEntry._ID,
-            TaskEntry.COLUMN_REMOTE_ID,
-            Contract.TaskEntry.COLUMN_SUMMARY,
-            TaskEntry.COLUMN_CREATION_DATE,
-            TaskEntry.COLUMN_PRIORITY,
-            Contract.TaskEntry.COLUMN_DESCRIPTION,
-            TaskEntry.COLUMN_PROJECT
+            Contract.IssueEntry._ID,
+            Contract.IssueEntry.COLUMN_REMOTE_ID,
+            Contract.IssueEntry.COLUMN_SUMMARY,
+            Contract.IssueEntry.COLUMN_STATUS,
+            Contract.IssueEntry.COLUMN_PRIORITY,
+            Contract.IssueEntry.COLUMN_DESCRIPTION
     };
 
     public static final int COL_ID = 0;
     public static final int COL_REMOTE_ID = 1;
     public static final int COL_SUMMARY = 2;
-    public static final int COL_CREATION_DATE = 3;
+    public static final int COL_STATUS = 3;
     public static final int COL_PRIORITY = 4;
     public static final int COL_DESCRIPTION = 5;
 
@@ -106,12 +102,10 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         if (data != null && data.moveToFirst()) {
             Id = data.getString(COL_ID);
             String taskId = data.getString(COL_REMOTE_ID);
-            long creation_date = data.getLong(COL_CREATION_DATE);
             String summary = data.getString(COL_SUMMARY);
             String priority = data.getString(COL_PRIORITY);
 
             mSummaryTextView.setText(summary);
-            mCreationDateTextView.setText("Released " + Long.toString(creation_date));
             mPriorityTextView.setText(priority);
         }
     }

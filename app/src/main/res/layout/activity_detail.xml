@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".DetailActivity">
+    tools:context=".ui.DetailActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            tools:context=".DetailActivity"
+            tools:context=".ui.DetailActivity"
             tools:ignore="MergeRootFrame" />
         <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            tools:context=".DetailActivity"
+            tools:context=".ui.DetailActivity"
             tools:ignore="MergeRootFrame" />
         <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            tools:context=".DetailActivity"
+            tools:context=".ui.DetailActivity"
             tools:ignore="MergeRootFrame" />
     </LinearLayout>
 </ScrollView>

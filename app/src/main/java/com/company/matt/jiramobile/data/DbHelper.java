@@ -3,10 +3,13 @@ package com.company.matt.jiramobile.data;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import com.company.matt.jiramobile.data.Contract.TaskEntry;
+
+import com.company.matt.jiramobile.data.Contract.IssueEntry;
+import com.company.matt.jiramobile.data.Contract.CommentEntry;
+import com.company.matt.jiramobile.data.Contract.AttachmentEntry;
 
 public class DbHelper extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 4;
 
     static final String DATABASE_NAME = "jiramobile.db";
 
@@ -16,20 +19,51 @@ public class DbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        final String SQL_CREATE_WEATHER_TABLE = "CREATE TABLE " + Contract.TaskEntry.TABLE_NAME + " (" +
-                Contract.TaskEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                TaskEntry.COLUMN_REMOTE_ID + " INTEGER NOT NULL UNIQUE," +
-                Contract.TaskEntry.COLUMN_SUMMARY + " TEXT NOT NULL, " +
-                Contract.TaskEntry.COLUMN_CREATION_DATE + " INTEGER NOT NULL, " +
-                TaskEntry.COLUMN_PRIORITY + " TEXT NOT NULL, " +
-                Contract.TaskEntry.COLUMN_DESCRIPTION + " TEXT, " +
-                Contract.TaskEntry.COLUMN_PROJECT + " TEXT NOT NULL);";
-        sqLiteDatabase.execSQL(SQL_CREATE_WEATHER_TABLE);
+        createIssuesTable(sqLiteDatabase);
+        createCommentsTable(sqLiteDatabase);
+        createAttachmentsTable(sqLiteDatabase);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + Contract.TaskEntry.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + IssueEntry.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + CommentEntry.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + AttachmentEntry.TABLE_NAME);
         onCreate(db);
+    }
+
+    private void createIssuesTable(SQLiteDatabase sqLiteDatabase) {
+        final String SQL_CREATE_TABLE = "CREATE TABLE " + IssueEntry.TABLE_NAME + " (" +
+                IssueEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                IssueEntry.COLUMN_REMOTE_ID + " INTEGER NOT NULL UNIQUE," +
+                IssueEntry.COLUMN_SUMMARY + " TEXT NOT NULL, " +
+                IssueEntry.COLUMN_PRIORITY + " TEXT NOT NULL, " +
+                IssueEntry.COLUMN_DESCRIPTION + " TEXT, " +
+                IssueEntry.COLUMN_STATUS + " TEXT NOT NULL);";
+        sqLiteDatabase.execSQL(SQL_CREATE_TABLE);
+    }
+
+    private void createCommentsTable(SQLiteDatabase sqLiteDatabase){
+        final String SQL_CREATE_TABLE = "CREATE TABLE " +
+                CommentEntry.TABLE_NAME + " (" +
+                CommentEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                CommentEntry.COLUMN_JIRA_ISSUE_ID + " INTEGER NOT NULL," +
+                CommentEntry.COLUMN_REMOTE_ID + " INTEGER NOT NULL," +
+                CommentEntry.COLUMN_BODY + " TEXT NOT NULL," +
+                CommentEntry.COLUMN_AUTHOR + " TEXT NOT NULL," +
+                CommentEntry.COLUMN_CREATED_DATE + " INTEGER NOT NULL);";
+        sqLiteDatabase.execSQL(SQL_CREATE_TABLE);
+    }
+
+    private void createAttachmentsTable(SQLiteDatabase sqLiteDatabase){
+        final String SQL_CREATE_TABLE = "CREATE TABLE " +
+                AttachmentEntry.TABLE_NAME + " (" +
+                AttachmentEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                AttachmentEntry.COLUMN_JIRA_ISSUE_ID + " INTEGER NOT NULL," +
+                AttachmentEntry.COLUMN_REMOTE_ID + " INTEGER NOT NULL," +
+                AttachmentEntry.COLUMN_FILENAME + " TEXT NOT NULL," +
+                AttachmentEntry.COLUMN_REMOTE_CONTENT_URL + " TEXT NOT NULL," +
+                AttachmentEntry.COLUMN_MIME_TYPE + " TEXT NOT NULL);";
+        sqLiteDatabase.execSQL(SQL_CREATE_TABLE);
     }
 }

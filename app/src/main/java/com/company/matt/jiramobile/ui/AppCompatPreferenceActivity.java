@@ -1,4 +1,4 @@
-package com.company.matt.jiramobile;
+package com.company.matt.jiramobile.ui;
 
 import android.content.res.Configuration;
 import android.os.Bundle;

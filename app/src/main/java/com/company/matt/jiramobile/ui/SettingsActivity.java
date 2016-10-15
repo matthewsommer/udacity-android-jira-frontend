@@ -1,4 +1,4 @@
-package com.company.matt.jiramobile;
+package com.company.matt.jiramobile.ui;
 
 import android.os.Bundle;
 import android.preference.ListPreference;
@@ -6,6 +6,8 @@ import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
+
+import com.company.matt.jiramobile.R;
 
 /**
  * Created by Matt on 4/30/16.

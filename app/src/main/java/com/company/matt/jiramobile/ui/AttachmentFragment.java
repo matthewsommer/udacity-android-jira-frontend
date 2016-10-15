@@ -1,4 +1,4 @@
-package com.company.matt.jiramobile;
+package com.company.matt.jiramobile.ui;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -16,6 +16,7 @@ import android.widget.GridView;
 
 import com.company.matt.jiramobile.JIRA.Constants;
 import com.company.matt.jiramobile.JIRA.Attachment;
+import com.company.matt.jiramobile.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;

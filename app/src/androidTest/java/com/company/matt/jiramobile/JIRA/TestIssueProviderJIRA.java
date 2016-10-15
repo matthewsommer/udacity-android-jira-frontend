@@ -10,9 +10,9 @@ public class TestIssueProviderJIRA extends AndroidTestCase {
 
     public void testGetAll() {
         List<Issue> issues = issueProvider.getAll();
-        assertNotNull("Error: buildTaskUri returned null", issues);
+        assertNotNull("Error: buildIssueUri returned null", issues);
         assertTrue("issueProvider.getAll() returned zero issues", issues.size() > 0);
-        assertEquals(issues.size(),7);
+        assertEquals(20,issues.size());
     }
 
     public void testCreateAndDelete() {

@@ -48,14 +48,14 @@
                 android:paddingTop="10dp" />
             <fragment
                 android:id="@+id/videos_container"
-                android:name="com.company.matt.jiramobile.AttachmentFragment"
+                android:name="com.company.matt.jiramobile.ui.AttachmentFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:layout="@android:layout/list_content">
             </fragment>
             <fragment
                 android:id="@+id/reviews_container"
-                android:name="com.company.matt.jiramobile.CommentFragment"
+                android:name="com.company.matt.jiramobile.ui.CommentFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:layout="@android:layout/list_content">
