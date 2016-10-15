@@ -1,6 +1,7 @@
 package com.company.matt.jiramobile.ui;
 
 import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
@@ -26,6 +27,13 @@ public class Widget extends AppWidgetProvider {
         PendingIntent appPendingIntent = PendingIntent.getActivity(context, 0, appIntent, 0);
 
         views.setOnClickPendingIntent(R.id.widget, appPendingIntent);
+
+        Intent clickIntentTemplate = new Intent(context, DetailActivity.class);
+        PendingIntent clickPendingIntentTemplate = TaskStackBuilder.create(context)
+                .addNextIntentWithParentStack(clickIntentTemplate)
+                .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        views.setPendingIntentTemplate(R.id.widget_list, clickPendingIntentTemplate);
+        views.setEmptyView(R.id.widget_list, R.id.widget_empty);
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);

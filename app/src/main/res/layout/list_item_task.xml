@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:gravity="center_vertical|center_horizontal"
     android:orientation="horizontal"
+    android:id="@+id/list_item_task"
     android:minHeight="?android:attr/listPreferredItemHeight"
     android:background="@drawable/touch_selector">
     <TextView

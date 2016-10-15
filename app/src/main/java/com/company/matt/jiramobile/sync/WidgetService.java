@@ -59,7 +59,7 @@ public class WidgetService extends RemoteViewsService {
                 final Intent intent = new Intent();
                 Uri issueUri = Contract.IssueEntry.buildIssueUri(Long.valueOf(strID));
                 intent.setData(issueUri);
-                views.setOnClickFillInIntent(R.id.widget, intent);
+                views.setOnClickFillInIntent(R.id.list_item_task, intent);
 
                 return views;
             }
