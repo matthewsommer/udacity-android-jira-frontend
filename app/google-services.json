@@ -1,0 +1,38 @@
+{
+  "project_info": {
+    "project_number": "730888317991",
+    "project_id": "firebase-jira-mobile"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:730888317991:android:ba602af071e8bfe4",
+        "android_client_info": {
+          "package_name": "com.company.matt.jiramobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuc8PVwfosafSfIhei6qqRXNcfi0bl6Zo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-85769679-1"
+          }
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
