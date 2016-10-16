@@ -14,6 +14,8 @@ import com.company.matt.jiramobile.R;
 import com.company.matt.jiramobile.data.Contract;
 import com.company.matt.jiramobile.sync.SyncAdapter;
 
+import com.google.android.gms.analytics.Tracker;
+
 import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity implements TaskFragment.Callback  {
@@ -22,7 +24,7 @@ public class MainActivity extends AppCompatActivity implements TaskFragment.Call
     private static final String ATTACHMENTSFRAGMENT_TAG = "AFTAG";
     private static final String COMMENTSFRAGMENT_TAG = "CFTAG";
     private boolean mTwoPane;
-    private Uri firstItemUri;
+    private Tracker mTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,10 @@ public class MainActivity extends AppCompatActivity implements TaskFragment.Call
         SyncAdapter.initializeSyncAdapter(this);
         SyncAdapter.syncImmediately(this);
         PreferenceManager.setDefaultValues(this, R.xml.pref_general, false);
+
+        // Obtain the shared Tracker instance.
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
     }
 
     @Override
