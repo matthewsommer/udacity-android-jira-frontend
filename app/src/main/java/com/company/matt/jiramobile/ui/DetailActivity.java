@@ -25,23 +25,6 @@ public class DetailActivity extends AppCompatActivity{
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.issue_detail_container, df)
                     .commit();
-
-            Bundle vfArguments = new Bundle();
-            vfArguments.putString(AttachmentFragment.TASK_ID, getIntent().getStringExtra(AttachmentFragment.TASK_ID));
-
-            AttachmentFragment vf = new AttachmentFragment();
-            vf.setArguments(vfArguments);
-
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.videos_container, vf)
-                    .commit();
-
-            CommentFragment rf = new CommentFragment();
-            rf.setArguments(vfArguments);
-
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.reviews_container, rf)
-                    .commit();
         }
     }
 

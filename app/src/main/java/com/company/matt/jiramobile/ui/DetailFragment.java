@@ -22,35 +22,23 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private static final String LOG_TAG = DetailFragment.class.getSimpleName();
     static final String DETAIL_URI = "URI";
 
-    private static final String ISSUE_SHARE_HASHTAG = " #JIRAMobileApp";
-
-    private ShareActionProvider mShareActionProvider;
     private Uri mUri;
-    private String Id;
 
     private static final int DETAIL_LOADER = 0;
 
     private static final String[] DETAIL_COLUMNS = {
-            Contract.IssueEntry._ID,
-            Contract.IssueEntry.COLUMN_REMOTE_ID,
             Contract.IssueEntry.COLUMN_SUMMARY,
             Contract.IssueEntry.COLUMN_STATUS,
-            Contract.IssueEntry.COLUMN_PRIORITY,
-            Contract.IssueEntry.COLUMN_DESCRIPTION
+            Contract.IssueEntry.COLUMN_PRIORITY
     };
 
-    public static final int COL_ID = 0;
-    public static final int COL_REMOTE_ID = 1;
-    public static final int COL_SUMMARY = 2;
-    public static final int COL_STATUS = 3;
-    public static final int COL_PRIORITY = 4;
-    public static final int COL_DESCRIPTION = 5;
+    public static final int COL_SUMMARY = 0;
+    public static final int COL_STATUS = 1;
+    public static final int COL_PRIORITY = 2;
 
-    private ImageView mIconView;
     private TextView mSummaryTextView;
-    private TextView mCreationDateTextView;
     private TextView mPriorityTextView;
-    private TextView mDescriptionTextView;
+    private TextView mStatusTextView;
 
     public DetailFragment() {
         setHasOptionsMenu(true);
@@ -66,11 +54,9 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         }
 
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
-        mIconView = (ImageView) rootView.findViewById(R.id.detail_icon);
-        mSummaryTextView = (TextView) rootView.findViewById(R.id.detail_title_textview);
-        mCreationDateTextView = (TextView) rootView.findViewById(R.id.detail_release_date);
-        mPriorityTextView = (TextView) rootView.findViewById(R.id.detail_vote_average);
-        mDescriptionTextView = (TextView) rootView.findViewById(R.id.detail_synopsis);
+        mSummaryTextView = (TextView) rootView.findViewById(R.id.detail_summary);
+        mStatusTextView = (TextView) rootView.findViewById(R.id.detail_status);
+        mPriorityTextView = (TextView) rootView.findViewById(R.id.detail_priority);
 
         return rootView;
     }
@@ -100,13 +86,13 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         Log.d("onLoadFinished", Integer.toString(data.getCount()));
         if (data != null && data.moveToFirst()) {
-            Id = data.getString(COL_ID);
-            String taskId = data.getString(COL_REMOTE_ID);
             String summary = data.getString(COL_SUMMARY);
             String priority = data.getString(COL_PRIORITY);
+            String status = data.getString(COL_STATUS);
 
             mSummaryTextView.setText(summary);
-            mPriorityTextView.setText(priority);
+            mPriorityTextView.setText(getString(R.string.label_priority) + ": " + priority);
+            mStatusTextView.setText(getString(R.string.label_status) + ": " + status);
         }
     }
 

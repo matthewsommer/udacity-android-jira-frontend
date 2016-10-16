@@ -149,4 +149,30 @@ public class IssueProviderJIRA implements IssueProvider {
 
         return issue;
     }
+
+    public Issue create(Issue issue) {
+        String JsonResponseStr = null;
+        Uri builtUri = Contract.IssueEntry.CONTENT_URI;
+
+        URL url = null;
+        try {
+            url = new URL(builtUri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        JsonResponseStr = Client.GetResponseStr("POST",url,issue.toJSONObject().toString());
+
+        JSONObject responseJSON = new JSONObject();
+        try {
+            responseJSON = new JSONObject(JsonResponseStr);
+            issue.setJira_id(responseJSON.getInt("id"));
+
+        }  catch (JSONException e) {
+            Log.e(LOG_TAG, e.getMessage(), e);
+            e.printStackTrace();
+        }
+
+        return issue;
+    }
 }

@@ -12,24 +12,7 @@
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/issue_detail_container"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            tools:context=".ui.DetailActivity"
-            tools:ignore="MergeRootFrame" />
-        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/videos_container"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            tools:context=".ui.DetailActivity"
-            tools:ignore="MergeRootFrame" />
-        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/reviews_container"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="100dp"
             tools:context=".ui.DetailActivity"
             tools:ignore="MergeRootFrame" />
     </LinearLayout>

@@ -47,7 +47,6 @@ public class TestUtilities extends AndroidTestCase {
         objectValues.put(IssueEntry.COLUMN_STATUS, "Open");
         objectValues.put(IssueEntry.COLUMN_PRIORITY, "High");
         objectValues.put(IssueEntry.COLUMN_DESCRIPTION, "Implement all the things!");
-        objectValues.put(IssueEntry.COLUMN_REPORTER, "ironman");
         return objectValues;
     }
 

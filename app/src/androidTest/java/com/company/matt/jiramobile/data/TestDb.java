@@ -58,7 +58,6 @@ public class TestDb extends AndroidTestCase {
         columnHashSet.add(IssueEntry.COLUMN_SUMMARY);
         columnHashSet.add(IssueEntry.COLUMN_PRIORITY);
         columnHashSet.add(IssueEntry.COLUMN_STATUS);
-        columnHashSet.add(IssueEntry.COLUMN_REPORTER);
         columnHashSet.add(IssueEntry.COLUMN_DESCRIPTION);
 
         int columnNameIndex = c.getColumnIndex("name");
