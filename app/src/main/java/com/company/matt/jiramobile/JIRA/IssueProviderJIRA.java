@@ -2,7 +2,13 @@ package com.company.matt.jiramobile.JIRA;
 
 import android.net.Uri;
 import android.util.Log;
+import android.widget.TextView;
+
 import com.company.matt.jiramobile.networking.Client;
+import com.company.matt.jiramobile.networking.ClientDelegate;
+import com.company.matt.jiramobile.sync.SyncAdapter;
+import com.company.matt.jiramobile.ui.MainActivity;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.net.MalformedURLException;
@@ -10,7 +16,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IssueProviderJIRA implements IssueProvider  {
+public class IssueProviderJIRA implements IssueProvider {
     private static final String LOG_TAG = IssueProvider.class.getSimpleName();
 
     public void IssueProviderImpl() { }
@@ -116,7 +122,7 @@ public class IssueProviderJIRA implements IssueProvider  {
         return issue;
     }
 
-    public Issue create(Issue issue) {
+    public Issue create(Issue issue, Client.Callback callback) {
         String JsonResponseStr = null;
         Uri builtUri = Contract.IssueEntry.CONTENT_URI;
 
@@ -127,17 +133,19 @@ public class IssueProviderJIRA implements IssueProvider  {
             e.printStackTrace();
         }
 
-        JsonResponseStr = Client.GetResponseStr("POST",url,issue.toJSONObject().toString());
+        new Client("POST",url,issue.toJSONObject().toString(),callback).execute();
 
-        JSONObject responseJSON = new JSONObject();
-        try {
-            responseJSON = new JSONObject(JsonResponseStr);
-            issue.setJira_id(responseJSON.getInt("id"));
+        //JsonResponseStr = Client.GetResponseStr("POST",url,issue.toJSONObject().toString());
 
-        }  catch (JSONException e) {
-            Log.e(LOG_TAG, e.getMessage(), e);
-            e.printStackTrace();
-        }
+//        JSONObject responseJSON = new JSONObject();
+//        try {
+//            responseJSON = new JSONObject(JsonResponseStr);
+//            issue.setJira_id(responseJSON.getInt("id"));
+//
+//        }  catch (JSONException e) {
+//            Log.e(LOG_TAG, e.getMessage(), e);
+//            e.printStackTrace();
+//        }
 
         return issue;
     }

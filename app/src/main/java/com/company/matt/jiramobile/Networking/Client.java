@@ -1,5 +1,6 @@
 package com.company.matt.jiramobile.networking;
 
+import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
 import com.company.matt.jiramobile.BuildConfig;
@@ -10,10 +11,40 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 
-public class Client {
+public class Client extends AsyncTask<String, Void, String> {
     private static final String LOG_TAG = Client.class.getSimpleName();
+
+    private String mMethod;
+    private URL mURL;
+    private String mJSON;
+    private final Callback mCallback;
+
+    public Client(String method, URL url, String jsonStr, Callback callback) {
+        mMethod = method;
+        mURL = url;
+        mJSON = jsonStr;
+        this.mCallback = callback;
+    }
+
+    public interface Callback {
+        void onTaskFinished(String result);
+    }
+
+    @Override
+    protected String doInBackground(String... params) {
+        return GetResponseStr(mMethod,mURL,mJSON);
+    }
+
+    @Override
+    protected void onPostExecute(String result) {
+        super.onPostExecute(result);
+        if (mCallback != null) {
+            mCallback.onTaskFinished(result);
+        }
+    }
 
     public static String GetResponseStr(String method, URL url, String jsonStr) {
         HttpURLConnection urlConnection = null;

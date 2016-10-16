@@ -1,32 +1,46 @@
 package com.company.matt.jiramobile.ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 
+import com.company.matt.jiramobile.JIRA.Fields;
+import com.company.matt.jiramobile.JIRA.Issue;
+import com.company.matt.jiramobile.JIRA.IssueProvider;
+import com.company.matt.jiramobile.JIRA.IssueProviderJIRA;
+import com.company.matt.jiramobile.JIRA.Issuetype;
+import com.company.matt.jiramobile.JIRA.Project;
 import com.company.matt.jiramobile.R;
 import com.company.matt.jiramobile.data.Contract;
+import com.company.matt.jiramobile.networking.Client;
+import com.company.matt.jiramobile.networking.ClientDelegate;
 import com.company.matt.jiramobile.sync.SyncAdapter;
 
 import com.google.android.gms.analytics.Tracker;
 
 import java.util.Arrays;
 
-public class MainActivity extends AppCompatActivity implements TaskFragment.Callback  {
+public class MainActivity extends AppCompatActivity implements TaskFragment.Callback {
     private final String LOG_TAG = MainActivity.class.getSimpleName();
     private static final String DETAILFRAGMENT_TAG = "DFTAG";
     private static final String ATTACHMENTSFRAGMENT_TAG = "AFTAG";
     private static final String COMMENTSFRAGMENT_TAG = "CFTAG";
     private boolean mTwoPane;
     private Tracker mTracker;
+    Client.Callback mCallback = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +65,41 @@ public class MainActivity extends AppCompatActivity implements TaskFragment.Call
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), CreateIssueActivity.class);
-                startActivity(intent);
+                LayoutInflater layoutInflaterAndroid = LayoutInflater.from(v.getContext());
+                final View mView = layoutInflaterAndroid.inflate(R.layout.create_issue_dialog_box, null);
+                AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(v.getContext());
+                alertDialogBuilderUserInput.setView(mView);
+
+                final EditText userInputDialogEditText = (EditText) mView.findViewById(R.id.userInputDialog);
+                alertDialogBuilderUserInput
+                        .setCancelable(false)
+                        .setPositiveButton("Create", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialogBox, int id) {
+                                mCallback = new Client.Callback(){
+                                    @Override
+                                    public void onTaskFinished(String response) {
+                                        Log.d("test","test");
+                                        SyncAdapter.syncImmediately(MainActivity.this);
+                                    }
+                                };
+                                Issuetype issuetype = new Issuetype("3","Task");
+                                Project project = new Project("10400","Health");
+                                Fields fields = new Fields(userInputDialogEditText.getText().toString(),project,issuetype);
+                                Issue local_issue = new Issue(fields);
+                                IssueProvider issueProvider = new IssueProviderJIRA();
+                                Issue createdIssue = issueProvider.create(local_issue, mCallback);
+                            }
+                        })
+
+                        .setNegativeButton("Cancel",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialogBox, int id) {
+                                        dialogBox.cancel();
+                                    }
+                                });
+
+                AlertDialog alertDialogAndroid = alertDialogBuilderUserInput.create();
+                alertDialogAndroid.show();
             }
         });
 

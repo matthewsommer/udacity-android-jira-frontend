@@ -16,7 +16,7 @@ public class Contract {
     public static final String PARAMETER_MAX_RESULTS = "maxResults";
 
     public static final String JQL = "resolution = Unresolved AND assignee in (currentUser()) ORDER BY issuetype ASC";
-    public static final String MAX_RESULTS = "20";
+    public static final String MAX_RESULTS = "100";
 
     public static final class IssueEntry implements BaseColumns {
 
