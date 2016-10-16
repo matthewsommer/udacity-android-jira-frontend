@@ -21,7 +21,7 @@
         </activity>
         <activity
             android:name="com.company.matt.jiramobile.ui.DetailActivity"
-            android:label="Details"
+            android:label="@string/title_detail"
             android:parentActivityName="com.company.matt.jiramobile.ui.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -30,6 +30,14 @@
         <activity
             android:name="com.company.matt.jiramobile.ui.SettingsActivity"
             android:label="@string/title_activity_settings"
+            android:parentActivityName="com.company.matt.jiramobile.ui.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.company.matt.jiramobile.ui.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.company.matt.jiramobile.ui.CreateIssueActivity"
+            android:label="@string/title_create"
             android:parentActivityName="com.company.matt.jiramobile.ui.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

@@ -5,6 +5,8 @@
     <string name="title_activity_settings">Settings</string>
     <string name="title_attachments">Attachments</string>
     <string name="title_comments">Comments</string>
+    <string name="title_detail">Detail</string>
+    <string name="title_create">Create Issue</string>
     <string name="label_task_summary">Summary</string>
     <string name="label_created_date">Created Date</string>
     <string name="label_priority">Priority</string>

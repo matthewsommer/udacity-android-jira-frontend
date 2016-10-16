@@ -23,7 +23,7 @@ public class DetailActivity extends AppCompatActivity{
             df.setArguments(moviearguments);
 
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.movie_detail_container, df)
+                    .add(R.id.issue_detail_container, df)
                     .commit();
 
             Bundle vfArguments = new Bundle();

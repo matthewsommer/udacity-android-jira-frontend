@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.company.matt.jiramobile.R;
 import com.company.matt.jiramobile.data.Contract;
@@ -31,18 +33,28 @@ public class MainActivity extends AppCompatActivity implements TaskFragment.Call
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (findViewById(R.id.movie_detail_container) != null) {
+        if (findViewById(R.id.issue_detail_container) != null) {
             mTwoPane = true;
             if (savedInstanceState == null) {
                 DetailFragment df = new DetailFragment();
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.movie_detail_container, df, DETAILFRAGMENT_TAG)
+                        .replace(R.id.issue_detail_container, df, DETAILFRAGMENT_TAG)
                         .commit();
             }
         } else {
             mTwoPane = false;
             getSupportActionBar().setElevation(0f);
         }
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), CreateIssueActivity.class);
+                startActivity(intent);
+            }
+        });
 
         SyncAdapter.initializeSyncAdapter(this);
         SyncAdapter.syncImmediately(this);
@@ -97,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements TaskFragment.Call
             df.setArguments(args);
 
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.movie_detail_container, df, DETAILFRAGMENT_TAG)
+                    .replace(R.id.issue_detail_container, df, DETAILFRAGMENT_TAG)
                     .commit();
 
             Bundle vfArguments = new Bundle();
