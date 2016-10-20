@@ -47,7 +47,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         IssueProvider issueProvider = new IssueProviderJIRA();
         object_list = issueProvider.getAll();
 
-        if(object_list.size() > 0) {
+        if(object_list != null && object_list.size() > 0) {
             Vector<ContentValues> cVVector = new Vector<ContentValues>(object_list.size());
             for (Issue issue : object_list) {
                 ContentValues objectValues = new ContentValues();

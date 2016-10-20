@@ -15,17 +15,20 @@ public class JIRAUtility {
         List<Issue> issues = new ArrayList<Issue>();
         JSONArray jsonArray = new JSONArray();
         try {
-            JSONObject jsonObject = new JSONObject(jsonStr);
-            if(jsonObject.has(Constants.JIRA_ISSUES)) {
-                jsonArray = jsonObject.getJSONArray(Constants.JIRA_ISSUES);
-            }
-            else {
-                jsonArray.put(jsonObject);
-            }
+            if (jsonStr != null) {
+                JSONObject jsonObject = new JSONObject(jsonStr);
+                if (jsonObject.has(Constants.JIRA_ISSUES)) {
+                    jsonArray = jsonObject.getJSONArray(Constants.JIRA_ISSUES);
+                } else {
+                    jsonArray.put(jsonObject);
+                }
 
-            for (int i = 0; i < jsonArray.length(); i++) {
-                Issue issue = new Issue(jsonArray.getJSONObject(i));
-                issues.add(issue);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    Issue issue = new Issue(jsonArray.getJSONObject(i));
+                    issues.add(issue);
+                }
+            } else {
+                return null;
             }
         } catch (JSONException e) {
             Log.e(LOG_TAG, e.getMessage(), e);

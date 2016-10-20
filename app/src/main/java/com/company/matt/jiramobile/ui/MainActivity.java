@@ -1,8 +1,11 @@
 package com.company.matt.jiramobile.ui;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
@@ -16,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.company.matt.jiramobile.JIRA.Fields;
 import com.company.matt.jiramobile.JIRA.Issue;
@@ -26,7 +30,6 @@ import com.company.matt.jiramobile.JIRA.Project;
 import com.company.matt.jiramobile.R;
 import com.company.matt.jiramobile.data.Contract;
 import com.company.matt.jiramobile.networking.Client;
-import com.company.matt.jiramobile.networking.ClientDelegate;
 import com.company.matt.jiramobile.sync.SyncAdapter;
 
 import com.google.android.gms.analytics.Tracker;
@@ -41,12 +44,19 @@ public class MainActivity extends AppCompatActivity implements TaskFragment.Call
     private boolean mTwoPane;
     private Tracker mTracker;
     Client.Callback mCallback = null;
+    private Context mContext;
+    boolean isConnected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        mContext = this;
+        ConnectivityManager cm =
+                (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
         if (findViewById(R.id.issue_detail_container) != null) {
             mTwoPane = true;
             if (savedInstanceState == null) {
@@ -103,8 +113,13 @@ public class MainActivity extends AppCompatActivity implements TaskFragment.Call
             }
         });
 
-        SyncAdapter.initializeSyncAdapter(this);
-        SyncAdapter.syncImmediately(this);
+        if (isConnected){
+            SyncAdapter.initializeSyncAdapter(this);
+            SyncAdapter.syncImmediately(this);
+        } else{
+            Toast.makeText(mContext, getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
+        }
+
         PreferenceManager.setDefaultValues(this, R.xml.pref_general, false);
 
         // Obtain the shared Tracker instance.
