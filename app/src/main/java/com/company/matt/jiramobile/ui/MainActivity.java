@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements TaskFragment.Call
             SyncAdapter.initializeSyncAdapter(this);
             SyncAdapter.syncImmediately(this);
         } else{
-            Toast.makeText(mContext, getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, getString(R.string.no_connection), Toast.LENGTH_LONG).show();
         }
 
         PreferenceManager.setDefaultValues(this, R.xml.pref_general, false);
